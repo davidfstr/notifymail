@@ -68,11 +68,12 @@ The encoding of the message body and all arguments is assumed to be UTF-8.
 Full usage information:
 
 ```
-Usage: notifymail.py --setup | -s SUBJECT [-b BODY] [--from-name NAME]
+Usage: notifymail --setup | -s SUBJECT [-b BODY] [--from-name NAME] | --probe
 
 Options:
   -h, --help            show this help message and exit
-  --setup               
+  --setup               setup mail server configuration
+  --probe               check whether mail server is reachable
   -s SUBJECT, --subject=SUBJECT
                         subject line. Required.
   -b BODY, --body=BODY  body. Read from standard input if omitted.

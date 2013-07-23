@@ -16,6 +16,17 @@ import sys
 
 # -----------------------------------------------------------------------------
 
+def probe(_test_config=None):
+    """
+    Attempts to login to the configured mail server.
+    Returns silently upon success.
+    
+    Raises an exception if the mail server could not be reached or
+    if there was an authentication failure.
+    """
+    
+    send('', '', _test_config=_test_config or _config)
+
 def send(subject, body, from_name=None, _test_config=None):
     """
     Sends a notification email with the specified subject, body, and (optional)
@@ -110,7 +121,7 @@ def _load_config(interactive=False, force_setup=False):
         sys.stdout.write('Verifying connection to SMTP server... ')
         sys.stdout.flush()
         try:
-            send('', '', _test_config=config)
+            probe(_test_config=config)
         except:
             print('')
             raise
@@ -157,9 +168,13 @@ if __name__ == '__main__':
     
     # Parse arguments
     parser = OptionParser(
-        usage='%prog --setup | -s SUBJECT [-b BODY] [--from-name NAME]')
+        usage='%prog --setup | -s SUBJECT [-b BODY] [--from-name NAME] | --probe')
     parser.add_option(
-        '--setup', action="store_true", dest="setup")
+        '--setup', action="store_true", dest="setup",
+        help='setup mail server configuration')
+    parser.add_option(
+        '--probe', action="store_true", dest="probe",
+        help='check whether mail server is reachable')
     parser.add_option(
         '-s', '--subject', dest='subject',
         help='subject line. Required.',
@@ -180,6 +195,9 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             # Ignore
             print('')
+    if options.probe:
+        _config = _load_config(interactive=sys.stdin.isatty())
+        probe()
     elif args != [] or options.subject is None:
         parser.print_help()
     else:
