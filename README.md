@@ -129,10 +129,6 @@ try {
 
 [FIXME: Verify both of the above code snippets]
 
-### From cron
-
-[FIXME: Write these instructions once I figure them out.]
-
 ## Limitations
 
 * The configured SMTP settings are stored in plaintext, including the SMTP password.
