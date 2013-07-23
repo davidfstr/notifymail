@@ -43,7 +43,7 @@ Once you have the settings in hand, run the `notifymail --setup` command:
 $ notifymail --setup
 SMTP Server Hostname: smtp.gmail.com
 SMTP Server Port [465]: 587
-SMTP Server Uses TLS [no]: yes
+SMTP Server Uses TLS (y/n) [n]: yes
 SMTP Username: robot@gmail.com
 SMTP Password: ********
 From Address [robot@gmail.com]: robot@gmail.com

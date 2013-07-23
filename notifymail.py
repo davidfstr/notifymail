@@ -91,7 +91,7 @@ def _load_config(interactive=False, force_setup=False):
         config['smtp_port'] = _input_int(
             'SMTP Server Port [465]: ', 465)
         config['smtp_uses_tls'] = _input_bool(
-            'SMTP Server Uses TLS [no]: ', False)
+            'SMTP Server Uses TLS (y/n) [n]: ', False)
         config['smtp_username'] = _input_string(
             'SMTP Username: ')
         config['smtp_password'] = _input_string(
