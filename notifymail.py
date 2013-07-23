@@ -115,7 +115,8 @@ def _load_config(interactive=False, force_setup=False):
         print('OK')
         
         with open(config_filepath, 'wb') as config_file:
-            json.dump(config, config_file)
+            json.dump(config, config_file, sort_keys=True, indent=4,
+                separators=(',', ': '))
     
     # Load and return configuration
     with open(config_filepath, 'rb') as config_file:
@@ -133,7 +134,7 @@ def _input_string(prompt, default='', password=False):
 
 def _input_int(prompt, default):
     try:
-        input = raw_input(prompt)
+        return int(raw_input(prompt))
     except ValueError:
         return default
 
