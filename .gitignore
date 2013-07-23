@@ -4,5 +4,6 @@
 # Python
 *.pyc
 *.pyo
+build
 MANIFEST
 dist
