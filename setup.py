@@ -6,7 +6,7 @@ setup(
     
     # Contents
     py_modules=['notifymail'],
-    scripts=['notifymail'],
+    scripts=['notifymail.py'],
     
     # Metadata
     author='David Foster',

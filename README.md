@@ -37,10 +37,10 @@ You must know the SMTP settings of your email provider, which can typically look
 
 Usually your SMTP username will be the same as your email address, and your SMTP password will be the same as your email password.
 
-Once you have the settings in hand, run the `notifymail --setup` command:
+Once you have the settings in hand, run the `notifymail.py --setup` command:
 
 ```
-$ notifymail --setup
+$ notifymail.py --setup
 SMTP Server Hostname: smtp.gmail.com
 SMTP Server Port [465]: 587
 SMTP Server Uses TLS (y/n) [n]: yes
@@ -58,7 +58,7 @@ Verifying connection to SMTP server... OK
 ### From the Command Line
 
 ```
-$ echo "Hello World" | notifymail -s "Subject"
+$ echo "Hello World" | notifymail.py -s "Subject"
 ```
 
 `notifymail` will read the message body from standard input and allow you to specify a subject line with the `-s` option. You may also specify a custom sender name using the `--from-name` option.
@@ -68,7 +68,7 @@ The encoding of the message body and all arguments is assumed to be UTF-8.
 Full usage information:
 
 ```
-Usage: notifymail --setup | -s SUBJECT [-b BODY] [--from-name NAME] | --probe
+Usage: notifymail.py --setup | -s SUBJECT [-b BODY] [--from-name NAME] | --probe
 
 Options:
   -h, --help            show this help message and exit
@@ -96,7 +96,7 @@ Just execute the `notifymail` command using your language's normal API for runni
 For example, in Ruby:
 
 ```
-Open3.popen3(['notifymail', '-s', 'Subject']) {|stdin, stdout, stderr, wait_thr|
+Open3.popen3(['notifymail.py', '-s', 'Subject']) {|stdin, stdout, stderr, wait_thr|
   stdin.puts('Hello World!')
   stdin.close
   
@@ -112,7 +112,7 @@ For example, in Java:
 ```
 try {
     Process notifymail = Runtime.getRuntime().exec(new String[] {
-        "notifymail", "-s", "Subject" });
+        "notifymail.py", "-s", "Subject" });
     OutputStream stdin = new PrintStream(
         notifymail.getOutputStream(), /*autoFlush=*/false, "UTF-8");
     
