@@ -2,9 +2,13 @@ from distutils.core import setup
 import os
 import sys
 
+def is_older_than(file1, file2):
+    if not os.path.exists(file1) or not os.path.exists(file2):
+        return False
+    return os.path.getmtime(file1) < os.path.getmtime(file2)
+
 # Generate README.rst if missing or out of date
-if not os.path.exists('README.rst') or \
-        os.path.getmtime('README.md') > os.path.getmtime('README.rst'):
+if not os.path.exists('README.rst') and is_older_than('README.rst', 'README.md'):
     os.system('pandoc --from=markdown --to=rst --output=README.rst README.md')
 with open('README.rst') as file:
     long_description = file.read()
