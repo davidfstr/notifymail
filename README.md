@@ -20,20 +20,9 @@ $ pip install notifymail
 
 You must know the SMTP settings of your email provider, which can typically looked up on your provider's website. For example here are [Gmail's SMTP settings](https://support.google.com/mail/troubleshooter/1668960?hl=en#ts=1665119,1665162), obtained with a internet search for "gmail SMTP settings":
 
-<table>
-  <tr>
-    <th>SMTP Server</th>
-    <td>smtp.gmail.com</td>
-  </tr>
-  <tr>
-    <th>SMTP Port</th>
-    <td>587 (for TLS)</td>
-  </tr>
-  <tr>
-    <th>SMTP Uses TLS?</th>
-    <td>yes</td>
-  </tr>
-</table>
+* **Gmail SMTP Server:** smtp.gmail.com
+* **Gmail SMTP Port:** 587 (for TLS)
+* **Gmail SMTP Uses TLS?** yes
 
 Usually your SMTP username will be the same as your email address, and your SMTP password will be the same as your email password.
 

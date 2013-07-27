@@ -7,3 +7,6 @@
 build
 MANIFEST
 dist
+
+# Generated files
+README.rst
