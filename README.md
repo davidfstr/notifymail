@@ -96,7 +96,9 @@ Just execute the `notifymail` command using your language's normal API for runni
 For example, in Ruby:
 
 ```
-Open3.popen3(['notifymail.py', '-s', 'Subject']) {|stdin, stdout, stderr, wait_thr|
+require 'open3'
+
+Open3.popen3('notifymail.py', '-s', 'Subject') {|stdin, stdout, stderr, wait_thr|
   stdin.puts('Hello World!')
   stdin.close
   
@@ -110,10 +112,12 @@ Open3.popen3(['notifymail.py', '-s', 'Subject']) {|stdin, stdout, stderr, wait_t
 For example, in Java:
 
 ```
+import java.io.*;
+
 try {
     Process notifymail = Runtime.getRuntime().exec(new String[] {
         "notifymail.py", "-s", "Subject" });
-    OutputStream stdin = new PrintStream(
+    PrintStream stdin = new PrintStream(
         notifymail.getOutputStream(), /*autoFlush=*/false, "UTF-8");
     
     stdin.println("Hello World!");
@@ -127,8 +131,6 @@ try {
     throw new RuntimeException("Unable to send email.", e);
 }
 ```
-
-[FIXME: Verify both of the above code snippets]
 
 ## Limitations
 
