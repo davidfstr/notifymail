@@ -41,11 +41,16 @@ def send(subject, body, from_name=None, _test_config=None):
     sender name.
     
     Arguments:
-    * subject : unicode|str     Subject of the email to send.
-    * body : unicode|str        Body of the email to send.
-    * from_name : unicode|str   Sender name to use.
-                                Overrides configuration options.
+    * subject : unicode|bytes<utf-8>    Subject of the email to send.
+    * body : unicode|bytes<utf-8>       Body of the email to send.
+    * from_name : unicode|bytes<utf-8>  Sender name to use.
+                                        Overrides configuration options.
     """
+    
+    # Force arguments to Unicode
+    subject = _force_to_unicode(subject)
+    body = _force_to_unicode(body)
+    from_name = _force_to_unicode(from_name)
     
     # Load configuration
     if _test_config is None:
@@ -66,12 +71,10 @@ def send(subject, body, from_name=None, _test_config=None):
             from_name = from_address
     to_address = config['to_address']
     
-    msg = MIMEText(_force_to_unicode(body), 'plain', 'utf-8')
-    msg['From'] = u'%s <%s>' % (
-        _force_to_unicode(from_name),
-        _force_to_unicode(from_address))
-    msg['To'] = _force_to_unicode(to_address)
-    msg['Subject'] = _force_to_unicode(subject)
+    msg = MIMEText(body, 'plain', 'utf-8')
+    msg['From'] = u'%s <%s>' % (from_name, from_address)
+    msg['To'] = to_address
+    msg['Subject'] = subject
     
     smtp = smtplib.SMTP(hostname, port)
     if tls:
