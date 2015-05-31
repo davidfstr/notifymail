@@ -6,6 +6,7 @@ notifymail
 Send emails to a preconfigured address.
 """
 
+import codecs
 from email.mime.text import MIMEText
 from getpass import getpass
 import json
@@ -13,6 +14,13 @@ from optparse import OptionParser
 import os.path
 import smtplib
 import sys
+
+try:
+    # Fix Python 2.x
+    input = raw_input
+except NameError:
+    # Fix Python 3.x
+    unicode = str
 
 # -----------------------------------------------------------------------------
 
@@ -58,17 +66,10 @@ def send(subject, body, from_name=None, _test_config=None):
             from_name = from_address
     to_address = config['to_address']
     
-    # Force arguments to be UTF-8 bytestrings
-    subject = _force_to_utf8(subject)
-    body = _force_to_utf8(body)
-    from_address = _force_to_utf8(from_address)
-    from_name = _force_to_utf8(from_name)
-    
-    msg = MIMEText(body)
-    msg['From'] = '%s <%s>' % (from_name, from_address)
-    msg['To'] = to_address
-    msg['Subject'] = subject
-    msg.set_charset('utf-8')
+    msg = MIMEText(_force_to_utf8(body), 'plain', 'utf-8')
+    msg['From'] = _force_to_utf8('%s <%s>' % (from_name, from_address))
+    msg['To'] = _force_to_utf8(to_address)
+    msg['Subject'] = _force_to_utf8(subject)
     
     smtp = smtplib.SMTP(hostname, port)
     if tls:
@@ -127,37 +128,37 @@ def _load_config(interactive=False, force_setup=False):
             raise
         print('OK')
         
-        with open(config_filepath, 'wb') as config_file:
+        with codecs.open(config_filepath, 'w', 'utf-8') as config_file:
             json.dump(config, config_file, sort_keys=True, indent=4,
                 separators=(',', ': '))
     
     # Load and return configuration
-    with open(config_filepath, 'rb') as config_file:
+    with codecs.open(config_filepath, 'r', 'utf-8') as config_file:
         return json.load(config_file)
 
 def _input_string(prompt, default='', password=False):
     if password:
-        input = getpass(prompt)
+        line = getpass(prompt)
     else:
-        input = raw_input(prompt)
-    if input == '':
+        line = input(prompt)
+    if len(line) == 0:
         return default
     else:
-        return input
+        return line
 
 def _input_int(prompt, default):
     try:
-        return int(raw_input(prompt))
+        return int(input(prompt))
     except ValueError:
         return default
 
 def _input_bool(prompt, default):
-    input = raw_input(prompt)
-    if len(input) == 0:
+    line = input(prompt)
+    if len(line) == 0:
         return default
-    if input.lower()[0] == 'y':
+    if line.lower()[0] == 'y':
         return True
-    if input.lower()[0] == 'n':
+    if line.lower()[0] == 'n':
         return False
     return default
 
@@ -195,7 +196,7 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             # Ignore
             print('')
-    if options.probe:
+    elif options.probe:
         _config = _load_config(interactive=sys.stdin.isatty())
         probe()
     elif args != [] or options.subject is None:
