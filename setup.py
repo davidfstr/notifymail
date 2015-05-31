@@ -16,7 +16,7 @@ with open('README.rst') as file:
 setup(
     # Identity
     name='notifymail',
-    version='1.0',
+    version='1.1',
     
     # Contents
     py_modules=['notifymail'],
@@ -37,8 +37,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Communications :: Email',
         'Topic :: Communications :: Email :: Mail Transport Agents',
         'Topic :: System :: Systems Administration',

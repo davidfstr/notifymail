@@ -7,13 +7,13 @@
 ## Requirements
 
 * OS X or Linux
-* Python 2.6 or 2.7
+* Python 2.7 or 3.4
 * An email account
 
 ## Installation
 
 ```
-$ pip install notifymail
+$ pip install notifymail  # or pip3 (for Python 3.x)
 ```
 
 ## Configuration
@@ -52,7 +52,8 @@ $ echo "Hello World" | notifymail.py -s "Subject"
 
 `notifymail` will read the message body from standard input and allow you to specify a subject line with the `-s` option. You may also specify a custom sender name using the `--from-name` option.
 
-The encoding of the message body and all arguments is assumed to be UTF-8.
+In Python 2 the encoding of the message body and all arguments is assumed to be UTF-8.
+In Python 3 the encoding of both is autodetected in [the usual fashion](https://docs.python.org/3/library/sys.html#sys.stdin).
 
 Full usage information:
 
@@ -73,7 +74,7 @@ Options:
 
 ```
 import notifymail
-notifymail.send("Subject", "Hello World")
+notifymail.send('Subject', 'Hello World')
 ```
 
 String arguments can be either Unicode strings or UTF-8 encoded bytestrings.
@@ -128,3 +129,12 @@ try {
 ## License
 
 This code is provided under the MIT License.
+
+## Release Notes
+
+* 1.1
+    * Add support for Python 3.4. Remove support for Python 2.6.
+    * Fix `--from-name` to actually work.
+    * Fix `--setup` to not print usage info after completing setup.
+* 1.0
+    * Initial version.
