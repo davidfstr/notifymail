@@ -18,9 +18,9 @@ import sys
 try:
     # Fix Python 2.x
     input = raw_input
+    bytes = str
 except NameError:
-    # Fix Python 3.x
-    unicode = str
+    pass
 
 # -----------------------------------------------------------------------------
 
@@ -66,10 +66,12 @@ def send(subject, body, from_name=None, _test_config=None):
             from_name = from_address
     to_address = config['to_address']
     
-    msg = MIMEText(_force_to_utf8(body), 'plain', 'utf-8')
-    msg['From'] = _force_to_utf8('%s <%s>' % (from_name, from_address))
-    msg['To'] = _force_to_utf8(to_address)
-    msg['Subject'] = _force_to_utf8(subject)
+    msg = MIMEText(_force_to_unicode(body), 'plain', 'utf-8')
+    msg['From'] = u'%s <%s>' % (
+        _force_to_unicode(from_name),
+        _force_to_unicode(from_address))
+    msg['To'] = _force_to_unicode(to_address)
+    msg['Subject'] = _force_to_unicode(subject)
     
     smtp = smtplib.SMTP(hostname, port)
     if tls:
@@ -81,10 +83,10 @@ def send(subject, body, from_name=None, _test_config=None):
         smtp.sendmail(from_address, to_address, msg.as_string())
     smtp.quit()
 
-def _force_to_utf8(str_or_unicode):
-    if type(str_or_unicode) == unicode:
-        str_or_unicode = str_or_unicode.encode('utf-8')
-    return str_or_unicode
+def _force_to_unicode(bytes_or_unicode):
+    if type(bytes_or_unicode) == bytes:
+        bytes_or_unicode = bytes_or_unicode.decode('utf-8')
+    return bytes_or_unicode
 
 # -----------------------------------------------------------------------------
 
@@ -207,7 +209,7 @@ if __name__ == '__main__':
             options.body = sys.stdin.read()
         
         _config = _load_config(interactive=sys.stdin.isatty())
-        send(options.subject, options.body)
+        send(options.subject, options.body, from_name=options.from_name)
 else:
     # Imported from Python script
     _config = _load_config(interactive=False)
